@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "micropython-msts"
+description = "Geocentric lunar ephemerides from a Unix timestamp: position, distance, phase. Pure Python, zero dependencies."
+readme = "README.md"
+license = "ISC"
+requires-python = ">=3.4"
+authors = [{ name = "Sergiy Duras" }]
+keywords = ["micropython", "astronomy", "moon", "ephemeris", "lunar-phase"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: MicroPython",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Intended Audience :: Developers",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://codeberg.org/duras/msts"
+Source = "https://github.com/sduras/msts-micropython"
+
+[tool.setuptools]
+py-modules = ["msts"]
+
+[tool.setuptools.dynamic]
+version = { attr = "msts.__version__" }

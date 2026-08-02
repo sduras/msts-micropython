@@ -1,0 +1,6 @@
+{
+    "urls": [
+        ["msts.py", "github:sduras/msts-micropython/msts.py"]
+    ],
+    "version": "0.1.0"
+}
