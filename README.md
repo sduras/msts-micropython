@@ -3,7 +3,7 @@
 Geocentric lunar ephemerides from a Unix timestamp: the Moon's ecliptic
 position, distance, and phase.
 
-This is a pure-Python port of [msts][origin], the OCaml library, rewritten
+This is a 🐍 Python port of [msts][origin], the OCaml library, rewritten
 for MicroPython on resource-constrained microcontrollers. Same algorithm
 and accuracy bounds; use this one on-device and the OCaml original 
 wherever a full OCaml toolchain is available.
