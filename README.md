@@ -41,13 +41,27 @@ Only the standard `math` module is required.
 
 ## Installation
 
-Copy `msts.py` onto the target device, for example:
+### MicroPython
+
+Either:
+
+- Install `micropython-msts` from **Tools → Manage packages…** in
+  [Thonny](https://thonny.org/), or
+- Copy `msts.py` onto the target device, for example:
 
 ```sh
 mpremote cp msts.py :
 ```
 
 Or simply place it alongside your own modules.
+
+### CPython
+
+Install from PyPI:
+
+```sh
+pip install micropython-msts
+```
 
 ## Example
 
