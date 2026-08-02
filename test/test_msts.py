@@ -66,11 +66,6 @@ def phase_name_matches_elongation(name, elong):
 
 
 def k_consistent_with_phase_angle(k, alpha):
-    # 1e-4 rather than a double-precision-tight bound: standard ESP32
-    # MicroPython builds use single-precision (32-bit) floats, and
-    # cos_deg's division-based degree conversion doesn't round
-    # identically to math.radians' multiplication, so a few ULPs of
-    # float32 error land well above 1e-10.
     expected = (1.0 + cos(radians(alpha))) / 2.0
     return abs(k - expected) < 1e-4
 
