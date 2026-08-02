@@ -4,9 +4,9 @@ Geocentric lunar ephemerides from a Unix timestamp: the Moon's ecliptic
 position, distance, and phase.
 
 This is a pure-Python port of [msts][origin], the OCaml library, rewritten
-for MicroPython on resource-constrained microcontrollers. Same author,
-same algorithm and accuracy bounds; use this one on-device and the OCaml
-original wherever a full OCaml toolchain is available.
+for MicroPython on resource-constrained microcontrollers. Same algorithm
+and accuracy bounds; use this one on-device and the OCaml original 
+wherever a full OCaml toolchain is available.
 
 [origin]: https://codeberg.org/duras/msts
 
@@ -21,12 +21,6 @@ Results are validated against JPL Horizons (DE441) over the supported
 interval 1900-01-01 through 2100-12-31. Guaranteed bounds: 2 degrees in
 ecliptic longitude, 0.5 degrees in ecliptic latitude, 1% in distance,
 0.02 in illuminated fraction. Typical errors are much smaller.
-
-Coordinates are geocentric, referenced to the mean ecliptic and equinox
-of date. Input is interpreted as UTC; Delta-T is not applied. msts does
-not model topocentric effects, nutation, aberration, or libration, and
-does not predict eclipses or compute rise and set times. Do not use it
-to point a telescope.
 
 ## Requirements
 
@@ -57,13 +51,13 @@ print("%s  %.1f%%  %.0f km" % (
 allocation beyond three small objects, so it's cheap enough to call on
 every wake cycle of a battery-powered device. Some fits:
 
+- **Clock or watch firmware**: a moon-phase complication on a
+  MicroPython-based smartwatch or wall clock face.
 - **E-ink or OLED moon-phase display**: an ESP32 or Pi Pico that wakes
   on a timer, calls `compute`, and draws the phase name and illuminated
   fraction — no network or RTC chip beyond whatever gives you Unix time.
 - **Garden helper**: irrigation or planting reminders keyed to lunar
   phase alongside your existing sensor readings.
-- **Clock or watch firmware**: a moon-phase complication on a
-  MicroPython-based smartwatch or wall clock face.
 - **Outdoor lighting automation**: dim or skip a solar/LoRa night-light
   around the full moon when ambient light is already higher.
 - **Education and demo boards**: a classroom orbital-mechanics demo
