@@ -84,4 +84,4 @@ every wake cycle of a battery-powered device. Some fits:
 
 ## License
 
-ISC. See LICENSE.
+ISC. See [LICENSE](LICENSE).
