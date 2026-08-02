@@ -49,7 +49,9 @@ print("%s  %.1f%%  %.0f km" % (
 
 `compute` is a single float-in, struct-out call with no I/O and no
 allocation beyond three small objects, so it's cheap enough to call on
-every wake cycle of a battery-powered device. Some fits:
+every wake cycle of a battery-powered device. 
+
+Some fits:
 
 - **Clock or watch firmware**: a moon-phase complication on a
   MicroPython-based smartwatch or wall clock face.
