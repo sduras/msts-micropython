@@ -47,7 +47,14 @@ Either:
 
 - Install `micropython-msts` from **Tools → Manage packages…** in
   [Thonny](https://thonny.org/), or
-- Copy `msts.py` onto the target device, for example:
+- Install directly from this repo, which doesn't depend on PyPI's
+  package-search index:
+
+```sh
+mpremote mip install https://codeberg.org/duras/msts-micropython/raw/branch/main/
+```
+
+- Or copy `msts.py` onto the target device by hand, for example:
 
 ```sh
 mpremote cp msts.py :
