@@ -1,5 +1,5 @@
-import os
 import sys
+import os
 from math import cos, radians
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -66,8 +66,13 @@ def phase_name_matches_elongation(name, elong):
 
 
 def k_consistent_with_phase_angle(k, alpha):
+    # 1e-4 rather than a double-precision-tight bound: standard ESP32
+    # MicroPython builds use single-precision (32-bit) floats, and
+    # cos_deg's division-based degree conversion doesn't round
+    # identically to math.radians' multiplication, so a few ULPs of
+    # float32 error land well above 1e-10.
     expected = (1.0 + cos(radians(alpha))) / 2.0
-    return abs(k - expected) < 1e-10
+    return abs(k - expected) < 1e-4
 
 
 def phase_angle_consistent_with_elongation(alpha, elong):
@@ -78,80 +83,46 @@ def phase_angle_consistent_with_elongation(alpha, elong):
 def check_consistency(t, e):
     ts = "t=%.0f" % t
     ph = e.phase
-    check(
-        ts + " phase_name consistent with elongation_deg",
-        phase_name_matches_elongation(ph.name, ph.elongation_deg),
-    )
-    check(
-        ts + " illuminated_fraction consistent with phase_angle_deg",
-        k_consistent_with_phase_angle(ph.illuminated_fraction, ph.phase_angle_deg),
-    )
-    check(
-        ts + " phase_angle_deg consistent with elongation_deg",
-        phase_angle_consistent_with_elongation(ph.phase_angle_deg, ph.elongation_deg),
-    )
+    check(ts + " phase_name consistent with elongation_deg",
+          phase_name_matches_elongation(ph.name, ph.elongation_deg))
+    check(ts + " illuminated_fraction consistent with phase_angle_deg",
+          k_consistent_with_phase_angle(ph.illuminated_fraction, ph.phase_angle_deg))
+    check(ts + " phase_angle_deg consistent with elongation_deg",
+          phase_angle_consistent_with_elongation(ph.phase_angle_deg, ph.elongation_deg))
 
 
 def main():
-    check(
-        "phase_name_to_string New Moon",
-        msts.phase_name_to_string(msts.NEW_MOON) == "New Moon",
-    )
-    check(
-        "phase_name_to_string Waxing Crescent",
-        msts.phase_name_to_string(msts.WAXING_CRESCENT) == "Waxing Crescent",
-    )
-    check(
-        "phase_name_to_string First Quarter",
-        msts.phase_name_to_string(msts.FIRST_QUARTER) == "First Quarter",
-    )
-    check(
-        "phase_name_to_string Waxing Gibbous",
-        msts.phase_name_to_string(msts.WAXING_GIBBOUS) == "Waxing Gibbous",
-    )
-    check(
-        "phase_name_to_string Full Moon",
-        msts.phase_name_to_string(msts.FULL_MOON) == "Full Moon",
-    )
-    check(
-        "phase_name_to_string Waning Gibbous",
-        msts.phase_name_to_string(msts.WANING_GIBBOUS) == "Waning Gibbous",
-    )
-    check(
-        "phase_name_to_string Last Quarter",
-        msts.phase_name_to_string(msts.LAST_QUARTER) == "Last Quarter",
-    )
-    check(
-        "phase_name_to_string Waning Crescent",
-        msts.phase_name_to_string(msts.WANING_CRESCENT) == "Waning Crescent",
-    )
+    check("phase_name_to_string New Moon",
+          msts.phase_name_to_string(msts.NEW_MOON) == "New Moon")
+    check("phase_name_to_string Waxing Crescent",
+          msts.phase_name_to_string(msts.WAXING_CRESCENT) == "Waxing Crescent")
+    check("phase_name_to_string First Quarter",
+          msts.phase_name_to_string(msts.FIRST_QUARTER) == "First Quarter")
+    check("phase_name_to_string Waxing Gibbous",
+          msts.phase_name_to_string(msts.WAXING_GIBBOUS) == "Waxing Gibbous")
+    check("phase_name_to_string Full Moon",
+          msts.phase_name_to_string(msts.FULL_MOON) == "Full Moon")
+    check("phase_name_to_string Waning Gibbous",
+          msts.phase_name_to_string(msts.WANING_GIBBOUS) == "Waning Gibbous")
+    check("phase_name_to_string Last Quarter",
+          msts.phase_name_to_string(msts.LAST_QUARTER) == "Last Quarter")
+    check("phase_name_to_string Waning Crescent",
+          msts.phase_name_to_string(msts.WANING_CRESCENT) == "Waning Crescent")
 
     check_raises_value_error(
-        "phase_name_to_string out of range", lambda: msts.phase_name_to_string(8)
-    )
+        "phase_name_to_string out of range",
+        lambda: msts.phase_name_to_string(8))
 
-    for t in (
-        t_1900,
-        t_1950,
-        t_j2000,
-        t_2100,
-        t_new_moon,
-        t_full_moon,
-        t_perigee,
-        t_apogee,
-    ):
+    for t in (t_1900, t_1950, t_j2000, t_2100,
+              t_new_moon, t_full_moon, t_perigee, t_apogee):
         e = msts.compute(t)
         check_ranges(t, e)
         check_consistency(t, e)
 
-    check(
-        "t_new_moon phase_name is New Moon",
-        msts.compute(t_new_moon).phase.name == msts.NEW_MOON,
-    )
-    check(
-        "t_full_moon phase_name is Full Moon",
-        msts.compute(t_full_moon).phase.name == msts.FULL_MOON,
-    )
+    check("t_new_moon phase_name is New Moon",
+          msts.compute(t_new_moon).phase.name == msts.NEW_MOON)
+    check("t_full_moon phase_name is Full Moon",
+          msts.compute(t_full_moon).phase.name == msts.FULL_MOON)
 
     check_raises_value_error("compute nan", lambda: msts.compute(float("nan")))
     check_raises_value_error("compute inf", lambda: msts.compute(float("inf")))
