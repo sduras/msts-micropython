@@ -10,7 +10,7 @@ wherever a full OCaml toolchain is available.
 
 [origin]: https://codeberg.org/duras/msts
 
-The algorithm is Paul Schlyter's: Keplerian orbital elements propagated
+The algorithm is [Paul Schlyter]( http://stjarnhimlen.se/)'s: Keplerian orbital elements propagated
 from a fixed epoch with empirical perturbation corrections. The library
 depends only on the `math` module from the standard library, reads no
 files, and keeps no state. `compute` is deterministic and total for
